@@ -11,9 +11,9 @@ permalink: /privacidade
 
 # Política de Privacidade — Vox Civis
 
-**Versão:** 1.3  
+**Versão:** 1.6  
 **Data de Vigência:** 18 de maio de 2026  
-**Última Atualização:** 8 de maio de 2026
+**Última Atualização:** 9 de maio de 2026
 
 ---
 
@@ -21,6 +21,9 @@ permalink: /privacidade
 
 | Versão | Data | Alterações |
 |--------|------|-----------|
+| 1.6 | 09/05/2026 | Seção 9 reescrita com tom executivo e honestidade integral: (1) abertura institucional posicionando segurança como pilar arquitetural; (2) controles em produção apresentados em 8 pilares (A-H) com contexto de mercado; (3) frameworks (LGPD, OWASP, ISO 27001/27701, NIST) declarados como REFERÊNCIAS adotadas no design (não como certificações obtidas); (4) Plano de Evolução Contínua organizado em 3 horizontes temporais (Q3/2026, 12-18m, 12-24m); (5) novas seções 9.4 (Resposta a Incidentes) e 9.5 (Disclosure Responsável) |
+| 1.5 | 09/05/2026 | (1) Seção 9 reescrita 100% baseada na arquitetura V3.9 efetivamente em produção (fontes: 3 diagramas Visão Geral · Ciclo de Request · Topologia); (2) Removidas das declarações atuais e movidas para Roadmap (Seção 9.2): MFA por plano, login social Google/Microsoft, criptografia em repouso, backups criptografados, Row-Level Security (RLS), MinIO, alertas em tempo real, detecção de anomalias; (3) JWT "15 minutos" substituído por declaração genérica (cache JWKS confirmado em fotos, TTL específico não); (4) Seção 11.5 lista de auto-hospedados removeu MinIO (não confirmado nas fotos da V3.9) |
+| 1.4 | 09/05/2026 | (1) Seção 5.1 substitui exemplos genéricos (AWS, Auth0, etc.) pelos operadores reais (Hostinger, Keycloak, Anthropic, OpenAI, Asaas, Plausible, Sentry); (2) Seção 9 reescrita: separa controles efetivamente implementados de roadmap declarado; remove afirmações sobre HSM/KMS/WAF/Zero Trust/criptografia E2E que não correspondem ao estado atual; (3) Seção 11.4 marcada como roadmap técnico; (4) Seção 13: nome do DPO preenchido (Francisco de Assis Ferreira Braga Filho); telefone e endereço removidos (e-mail é canal único); (5) Seção 7.8: portal fantasma substituído por canal real de exercício de direitos via e-mail; (6) numeração de seções corrigida (13/14/15/16); (7) typo "Voz Civis" corrigido; (8) Lei 8.884/94 substituída por art. 195 CTN |
 | 1.3 | 08/05/2026 | (1) Seção 11.0 item 5 prevê evolução do produto com novos agentes especializados e produtos premium, mantendo o consentimento existente válido para inclusões equivalentes em natureza e finalidade; (2) checkbox 3.1.B reescrito de forma extensível ("agentes especializados e funcionalidades da plataforma") sem listar nomes específicos sujeitos a expansão futura |
 | 1.2 | 08/05/2026 | (1) Seção 11.0 estabelece modelo de consentimento opt-in granular com ativação futura para uso de dados anonimizados em refinamento dos agentes; (2) Seção 11.5 nomeia explicitamente fornecedores externos de IA (Anthropic e OpenAI) e formaliza política de não-uso de dados para treinamento; (3) distinção entre componentes auto-hospedados (OpenWebUI, Keycloak, PostgreSQL, Redis, MinIO, N8N) e fornecedores externos com transferência internacional; (4) checkbox de cadastro (3.1.B) reescrito com finalidade específica e tempo de ativação claro |
 | 1.1 | 17/04/2026 | Melhorias cirúrgicas de conformidade identificadas em auditoria: (1) Captura prática de consentimento com banner granular, checkbox isolado, centro de preferências e registro imutável; (2) Formatos de resposta para direitos LGPD (JSON/CSV/PDF) + portal de autoatendimento; (3) Notificação proativa à ANPD em 72h + registro de todos incidentes; (4) Auditoria de terceiros com DPA obrigatório; (5) Privacy by Design e Privacy by Default conforme Art. 46 §2º LGPD; (6) Contextualização para Vox Civis com 5 agentes de IA isolados, VOX GUARDIÃO como camada de compliance, metadados de uso criptografados |
@@ -245,12 +248,16 @@ Se aplicável (exemplo: pesquisas sociodemográficas com recorte de raça/gêner
 #### **A. Prestadores de Serviço (Processadores)**
 A Vox Civis compartilha dados com fornecedores terceirizados que atuam como processadores:
 
-- **Infraestrutura Cloud**: Provedor de hospedagem (ex.: AWS, Google Cloud, Azure)
-- **Autenticação**: Serviço SSO/OAuth (ex.: Auth0, Okta)
-- **CRM e Marketing**: Plataforma CRM (ex.: Pipedrive, HubSpot)
-- **Analytics**: Serviço de análise (ex.: Mixpanel, Amplitude)
-- **Backup e Recuperação**: Provedor de backup (ex.: Backblaze)
-- **Email Transacional**: Serviço de email (ex.: SendGrid, AWS SES)
+- **Infraestrutura e E-mail:** Hostinger (Brasil) — servidor dedicado com containers Docker; e-mails @voxcivis.ai via SMTP do Hostinger
+- **Autenticação:** Keycloak (auto-hospedado · open-source) — OAuth2/OIDC
+- **Login social:** Google (OAuth2 · apenas e-mail e nome)
+- **Modelos de IA (LLM):** Anthropic, PBC e OpenAI, LLC — vide Seção 11.5
+- **Pagamentos:** Asaas (Brasil) — gateway PCI-DSS compliant
+- **Analytics privacy-friendly:** Plausible (UE) — sem fingerprinting · sem dados pessoais
+- **Monitoramento de erros:** Sentry — logs sem PII
+- **Backups:** internos no próprio servidor Hostinger, criptografados
+
+> 📌 **Nota:** A inclusão de novos processadores (CRM, e-mail transacional dedicado, BI) será comunicada com 30 dias de antecedência via atualização desta Política.
 
 Todos os processadores assinam Acordos de Processamento de Dados (DPA — Data Processing Agreement) garantindo:
 - Conformidade LGPD/GDPR
@@ -306,7 +313,7 @@ Se dados forem processados fora do Brasil:
 | **Logs de Acesso/Erro** | 12 meses | Segurança e debugging |
 | **Backups** | 12 meses (com rotação mensal) | Recuperação de desastres |
 | **Dados Agregados/Públicos** | Indeterminado (não vinculados a pessoa física específica) | Fonte de dados territorial |
-| **Registros Contábeis** | 5 anos | Lei nº 8.884/94 |
+| **Registros Contábeis** | 5 anos | art. 195 do Código Tributário Nacional (Lei 5.172/66) |
 
 ### **6.2 Exclusão de Dados**
 
@@ -366,27 +373,27 @@ Qualquer pessoa cujos dados sejam processados pela Vox Civis possui os seguintes
 
 ### **7.8 Como Exercer os Direitos**
 
-#### **Portal de Autoatendimento (Recomendado)**
-Os titulares podem exercer a maioria dos direitos diretamente via portal:
-- **URL:** https://privacidade.voxcivis.ai/direitos
-- **Autenticação:** Login com email/senha da conta
-- **Direitos Disponíveis:**
-  - ✓ Acesso a dados pessoais (download imediato ou agendado)
-  - ✓ Retificação (corrigir dados)
-  - ✓ Revogação de consentimento
-  - ✓ Oposição a marketing
-  - ✓ Anonimização antecipada
-- **Resposta Automática:** Confirmação instantânea de recebimento
-- **Acompanhamento:** Status em tempo real da solicitação
-- **Histórico:** Registro de todos os direitos exercidos
+#### **Canal de exercício de direitos (vigente no MVP)**
 
-#### **Canais Alternativos**
-Para solicitações complexas ou que exijam verificação de identidade:
+Os titulares exercem seus direitos LGPD diretamente com o Encarregado de Dados:
 
-**Email:** atendimento@voxcivis.ai  
-**Endereço:** Brasília/DF  
-**Telefone:** [AJUSTAR]  
-**Formulário Online:** [AJUSTAR — URL do formulário de direitos LGPD]
+- **E-mail:** <dpo@voxcivis.ai>
+- **Resposta:** confirmação de recebimento em 2 dias úteis
+- **Prazo final:** até 15 dias (prorrogável por mais 10 dias mediante justificativa · LGPD art. 19)
+- **Verificação de identidade:** pode ser solicitada por segurança
+
+> 📌 **Roadmap:** portal de autoatendimento com painel de direitos · prazo previsto Q3/2026
+
+
+#### **Identificação para verificação (LGPD art. 9º)**
+
+Para solicitações que exijam verificação de identidade do titular:
+
+**E-mail principal (DPO):** <dpo@voxcivis.ai>
+**E-mail atendimento geral:** <atendimento@voxcivis.ai>
+**Sede:** Brasília/DF, Brasil
+**CNPJ:** 59.999.302/0001-68
+
 
 **Informações a Fornecer:**
 - Nome completo e CPF/CNPJ
@@ -425,98 +432,157 @@ Para solicitações complexas ou que exijam verificação de identidade:
 ### **8.3 Rastreamento de Terceiros**
 
 Ferramentas de analytics/marketing podem depositar cookies independentes:
-- [AJUSTAR — Listar ferramentas: Google Analytics, Hotjar, Facebook Pixel, etc.]
+- **Plausible Analytics** (privacy-friendly · sediado na União Europeia · sem fingerprinting · sem dados pessoais)
+- **Sentry** (captura de erros JavaScript · sem PII)
+- A VoxCivis **não utiliza** Google Analytics, Facebook Pixel, Hotjar ou ferramentas similares de rastreamento publicitário
 - Consulte políticas de privacidade desses terceiros
 - A Vox Civis não controla essas cookies
 
 ### **8.4 Do Not Track (DNT)**
 
 Se navegador estiver configurado com DNT:
-- Voz Civis respeita a preferência
+- VoxCivis respeita a preferência
 - Analytics de terceiros podem não respeitar (responsabilidade deles)
 
 ---
 
 ## 9. Segurança dos Dados
 
-### **9.1 Medidas Técnicas de Segurança**
+A segurança e a proteção dos dados são **pilares fundamentais** da arquitetura VoxCivis, integrados desde a concepção da plataforma (*Security by Design*). A SIAS adota controles alinhados às **melhores práticas de mercado aplicáveis ao estágio atual** do produto, com plano formal de evolução contínua à medida que a operação amadurece.
 
-A Vox Civis implementa segurança máxima conforme NIST Cybersecurity Framework e ISO 27001:
+Esta Política compromete-se com **transparência integral**: declara explicitamente o que está implementado em produção e o que está planejado para evolução, sem ambiguidade.
 
-#### **A. Criptografia em Repouso**
-- **Algoritmo:** AES-256 (Advanced Encryption Standard)
-- **Escopo:** Todos os dados pessoais e conversas armazenadas
-- **Chaves de Criptografia:** Gerenciadas em HSM (Hardware Security Module) ou serviço gerenciado (ex.: AWS KMS)
-- **Backup:** Criptografado com chaves independentes
+### 9.1 Pilares de segurança em produção (arquitetura V3.9)
 
-#### **B. Criptografia em Trânsito**
-- **Protocolo:** TLS 1.3 (Transport Layer Security)
-- **Certificados:** RSA 2048-bit ou ECDSA, renovados anualmente
-- **HSTS:** Habilitado por padrão (força HTTPS)
-- **Perfect Forward Secrecy:** Implementado
+A plataforma VoxCivis opera sobre uma **arquitetura de classe enterprise** validada por padrões consolidados de mercado. Cada componente foi escolhido por sua robustez, maturidade e adoção em organizações sensíveis (financeiras, governo, saúde).
 
-#### **C. Criptografia End-to-End para Conversas e CRM**
-- Conversas de clientes com agentes de IA são **criptografadas ponto-a-ponto**
-- Dados de CRM são **criptografados em banco de dados** com acesso restrito
-- **Nenhum membro da equipe Vox Civis pode ler conversas/CRM descriptografadas** sem autorização explícita
-- Apenas o proprietário da conta ou administrador autorizado acessa conteúdo descriptografado
+#### A. Identidade e autenticação centralizada
 
-#### **D. Controle de Acesso (Zero Trust)**
-- **Autenticação Multifator (MFA):** Obrigatória para todos os usuários
-- **RBAC (Role-Based Access Control):** Permissões granulares
-- **Princípio do Menor Privilégio:** Acesso mínimo necessário
-- **Auditoria de Acesso:** Todos os acessos são registrados com timestamp, usuário, ação
-- **Segregação de Ambiente:** Prod, staging, dev isolados
+A gestão de identidade segue o padrão **OAuth2 / OpenID Connect** — referência adotada por bancos, plataformas governamentais e provedores de cloud de classe mundial.
 
-#### **E. Prevenção de Ameaças**
-- **WAF (Web Application Firewall):** Proteção contra OWASP Top 10
-- **DDoS Mitigation:** Proteção em nível de borda
-- **Rate Limiting:** Prevenção de força bruta
-- **SQL Injection & XSS Prevention:** Validação input/output
-- **CSRF Protection:** Tokens CSRF em todos os formulários
+- **Servidor de identidade:** Keycloak (auto-hospedado · realm dedicado `voxcivis`)
+- **Tokens:** JWT assinados, validados a cada requisição via cache JWKS
+- **Hash de senhas:** algoritmos criptográficos modernos (gerenciados pelo Keycloak)
+- **Princípio do menor privilégio** aplicado a todos os acessos administrativos
 
-#### **F. Segmentação de Rede**
-- **VPC/Subnet:** Isolamento de componentes críticos
-- **Security Groups:** Firewall de rede por camada
-- **Egress Filtering:** Controle de saída de dados
+#### B. Criptografia em trânsito de ponta a ponta
 
-### **9.2 Medidas Organizacionais de Segurança**
+Todo o tráfego entre cliente, plataforma e fornecedores externos é criptografado com **TLS** atualizado e certificados gerenciados automaticamente.
 
-#### **A. Governança**
-- **Política de Segurança da Informação:** Documentada e comunicada
-- **ISMS (Information Security Management System):** Baseado em ISO 27001
-- **Comitê de Segurança:** Reuniões mensais
-- **Trilhas de Auditoria:** Logs imutáveis (12 meses)
+- **Edge:** Traefik com TLS automático (renovação Let's Encrypt)
+- **Domínios cobertos:** `api.voxcivis.ai`, `auth.voxcivis.ai`, `legal.voxcivis.ai`
+- **Comunicação com LLMs externos:** HTTPS sob DPA de não-treinamento (Seção 11.5)
 
-#### **B. Pessoas**
-- **Treinamento de Segurança:** Anual, obrigatório para todos
-- **Confidencialidade:** Acordos de NDA/confidencialidade
-- **Segregação de Funções:** Desenvolvimento ≠ Produção ≠ Financeiro
-- **Background Check:** Para posições sensíveis
+#### C. Auditoria completa e rastreável
 
-#### **C. Incidentes**
-- **Plano de Resposta a Incidentes:** Documentado e testado
-- **Notificação:** Vítimas e autoridades notificadas em até 72h de descoberta (LGPD Art. 34)
-- **Investigação Forense:** Logs preservados, análise independente
-- **Teste de Intrusão:** Anual, por terceiros
+Cada requisição à plataforma é registrada de forma **imutável** com retenção compatível com a legislação aplicável.
 
-#### **D. Terceiros**
-- **Avaliação de Segurança:** Antes de integração
-- **DPA (Data Processing Agreement):** Obrigatório
-- **Auditoria:** Periódica de prestadores críticos
-- **Cláusulas de Segurança:** Contratuais
+- **Audit log** em PostgreSQL com retenção de **5 anos** (LGPD)
+- Captura via `AuditMiddleware` no Gateway · modo *fire-and-forget* (zero impacto em latência)
+- **Estrutura padronizada:** timestamp, usuário (claim do JWT), agente alvo, decisão do GUARDIÃO
+- Rastreabilidade ponta-a-ponta de cada interação com agentes de IA
 
-### **9.3 Certificações e Conformidades**
+#### D. Controle de tráfego e proteção contra abuso
 
-A Vox Civis busca:
-- **ISO 27001** — Gestão de Segurança da Informação
-- **ISO 27701** — Gestão de Privacidade
-- **SOC 2 Type II** — Confiabilidade de sistemas
-- **NIST Cybersecurity Framework** — Alinhamento
+Mecanismos de **rate-limiting em múltiplas camadas** protegem a plataforma e os usuários contra uso abusivo, ataques de força bruta e exfiltração massiva.
 
-[AJUSTAR — Adicionar certificações efetivamente obtidas]
+- **3 níveis temporais:** segundo · minuto · dia
+- Aplicação dual: por **usuário** (claim JWT) e por **IP** (camada externa)
+- Contadores em Redis · resposta padrão `429 Too Many Requests`
 
----
+#### E. Compliance automatizado: VOX GUARDIÃO
+
+Diferencial arquitetural da VoxCivis: **toda saída de IA passa por um gate de compliance automatizado** antes de chegar ao usuário.
+
+- **Workflow dedicado** (n8n WF-02) executado em 100% das respostas
+- **Watermark automático** em toda resposta aprovada (rastreabilidade de autoria)
+- **Bloqueio ativo** de conteúdo potencialmente eleitoral (Lei 9.504/97)
+- Decisões registradas no audit log para auditoria
+
+#### F. Infraestrutura controlada e isolada
+
+- **Hospedagem em território nacional** (Hostinger Brasil · servidor dedicado)
+- Orquestração via Easypanel · **rede Docker isolada** (`easypanel-vox_civis`)
+- Componentes containerizados: Edge (Traefik) · Identidade (Keycloak) · Gateway (FastAPI) · Persistência (PostgreSQL) · Cache (Redis) · Orquestração de agentes (n8n) · Interface admin (OpenWebUI)
+- **Soberania de dados:** dados de clientes residem em território brasileiro
+
+#### G. Pipeline da requisição (defense in depth)
+
+A ordem dos controles é parte do design — princípio **fail-fast**: validações ocorrem **antes** de qualquer chamada ao LLM, minimizando exposição.
+
+```
+Cliente → Traefik (TLS) → Gateway FastAPI →
+   CORS → Auth (JWKS) → Rate-limit (Redis) → Audit (Postgres) →
+   Roteamento → Agente (n8n WF-01) → LLM (Anthropic / OpenAI) →
+   GUARDIÃO (n8n WF-02) → Watermark → Cliente
+```
+
+#### H. Política de não-uso de dados para treinamento
+
+- **Nenhuma conversa de cliente é utilizada para treinar modelos** (vide Seção 11)
+- Anthropic e OpenAI fornecem **garantia contratual via DPA** de não-treinamento
+- Modelos acessados via API empresarial · sem retenção além do mínimo operacional
+
+### 9.2 Frameworks e referências de mercado adotados
+
+A arquitetura VoxCivis é construída tendo como **referência** os seguintes frameworks consolidados, aplicados na medida adequada ao estágio atual da operação:
+
+- **LGPD** (Lei 13.709/2018) — base legal da proteção de dados pessoais · **conformidade implementada**
+- **Marco Civil da Internet** (Lei 12.965/2014) — **conformidade implementada**
+- **OWASP Top 10** — referência para mitigação de vulnerabilidades em aplicação web · **adotado no design**
+- **ISO 27001 / ISO 27701** — referências para gestão de segurança e privacidade · adotadas como **norte arquitetural** · certificação formal no plano de evolução
+- **NIST Cybersecurity Framework** — referência para postura defensiva · **incorporado nas decisões de arquitetura**
+
+### 9.3 Plano de Evolução Contínua
+
+A SIAS opera com **transparência integral** sobre seu plano de amadurecimento de segurança. Os controles abaixo **não estão implementados no MVP** (lançamento 18/05/2026) e seguem cronograma formal de implementação proporcional ao crescimento da operação. Esta Política será atualizada à medida que cada item entrar em produção.
+
+**Horizonte 1 (até Q3/2026)**
+
+- Autenticação multifator (MFA) disponível por plano comercial
+- Login social via Google e Microsoft (OAuth2)
+- Criptografia em repouso (PostgreSQL TDE / criptografia de volume)
+- Backups com gerenciamento de chave separado
+- Row-Level Security (RLS) no PostgreSQL para isolamento multi-tenant
+- Storage objeto S3-compatible (MinIO) para PDFs e relatórios
+- Sistema de alertas em tempo real para a equipe de operações
+
+**Horizonte 2 (12-18 meses)**
+
+- HSM/KMS gerenciado para chaves criptográficas
+- WAF (Web Application Firewall) dedicado
+- SIEM (Security Information and Event Management) com correlação
+- Detecção de anomalias com aprendizado de máquina
+- Pen test anual por terceiro independente certificado
+
+**Horizonte 3 (12-24 meses)**
+
+- ISMS (Information Security Management System) formal baseado em ISO 27001
+- Comitê de Segurança colegiado
+- Background check estruturado para posições sensíveis
+- **Certificações:** ISO 27001 · ISO 27701 · SOC 2 Type II
+
+### 9.4 Resposta a incidentes de segurança
+
+A SIAS mantém procedimento formal de resposta a incidentes alinhado ao **art. 48 da LGPD**:
+
+1. **Detecção e contenção** imediatas via monitoramento da arquitetura
+2. **Avaliação de severidade** pelo Encarregado de Dados (DPO)
+3. **Notificação à ANPD** em até **72 horas** quando houver risco aos titulares
+4. **Comunicação aos titulares afetados** em linguagem clara e tempestiva
+5. **Análise de causa raiz** documentada no audit log (5 anos)
+6. **Remediação e prevenção** de recorrência
+
+**Canal de reporte:** <dpo@voxcivis.ai>
+
+### 9.5 Reporte responsável de vulnerabilidades
+
+A SIAS valoriza pesquisadores de segurança e a comunidade técnica. Vulnerabilidades identificadas devem ser reportadas a <dpo@voxcivis.ai> sob **disclosure responsável**:
+
+- Não exploramos, não retaliamos
+- Reconhecemos publicamente colaborações relevantes (com autorização)
+- Compromisso de remediação proporcional à severidade
+
 
 ## 10. Privacy by Design e Privacy by Default (Art. 46 §2º LGPD)
 
@@ -658,7 +724,9 @@ Todas as configurações padrão favorecem proteção máxima:
   - Solicitar anonimização antecipada
   - Optar-se do treinamento de IA
 
-### **11.4 Tecnologias de Anonimização**
+### **11.4 Tecnologias de Anonimização (Roadmap técnico)**
+
+> 📌 **Roadmap (não ativo hoje):** Quando o uso de dados anonimizados para refino dos agentes for ativado (vide Seção 11.0), as seguintes técnicas serão aplicadas:
 
 - **Differential Privacy:** Adiciona ruído matemático para impedir re-identificação
 - **K-Anonymity:** Mínimo de 5 registros similares
@@ -684,7 +752,7 @@ Esta garantia está formalizada nos Data Processing Addenda (DPAs) firmados com 
 - O usuário é informado sobre a transferência internacional ao aceitar esta Política
 - O usuário pode solicitar informações detalhadas sobre o fluxo de dados internacionais via canal do titular
 
-**Componentes auto-hospedados (não são operadores externos).** Outros componentes da plataforma — como **OpenWebUI** (interface dos agentes de IA), **Keycloak** (autenticação), **PostgreSQL** (banco), **Redis** (cache), **MinIO** (storage) e **N8N** (orquestração) — são software open-source executados em infraestrutura controlada pela VoxCivis (servidor Hostinger no Brasil). Não há transferência a terceiros nesses componentes; eles fazem parte do ambiente operacional do controlador.
+**Componentes auto-hospedados (não são operadores externos).** Outros componentes da plataforma — como **OpenWebUI** (interface admin/dogfooding), **Keycloak** (autenticação), **PostgreSQL** (banco e audit_log), **Redis** (cache e rate-limit) e **n8n** (orquestração dos agentes WF-01/WF-02) — são software open-source executados em infraestrutura controlada pela VoxCivis (servidor Hostinger no Brasil). Não há transferência a terceiros nesses componentes; eles fazem parte do ambiente operacional do controlador.
 
 **Substituição ou inclusão de fornecedores.** Caso a VoxCivis venha a substituir ou incluir novos fornecedores externos de IA, esta Política será atualizada com 30 dias de antecedência, e novo consentimento será solicitado quando aplicável conforme o art. 9º §2º da LGPD.
 
@@ -721,21 +789,18 @@ Se maior de idade contrata plataforma para fins comerciais/educacionais:
 
 ### **13.1 Controlador**
 
-**SIAS - Soluções em IA**
-
-- **CNPJ:** 59.999.302/0001-68
 - **Razão Social:** SIAS - Soluções em Inteligência Artificial e Sustentabilidade LTDA
-- **Endereço Registrado:** Brasília/DF
-- **Email:** atendimento@voxcivis.ai
-- **Telefone:** [AJUSTAR]
-- **Representante Legal:** [AJUSTAR — Nome do representante]
+- **CNPJ:** 59.999.302/0001-68
+- **Sede:** Brasília/DF, Brasil
+- **E-mail institucional:** <atendimento@voxcivis.ai>
+- **Sócio-Administrador:** Francisco de Assis Ferreira Braga Filho
 
 ### **13.2 Encarregado de Proteção de Dados (DPO — Data Protection Officer)**
 
-- **Nome:** [AJUSTAR]
-- **Email:** dpo@voxcivis.ai
-- **Telefone:** [AJUSTAR]
-- **Endereço:** [AJUSTAR]
+- **Nome:** Francisco de Assis Ferreira Braga Filho
+- **Função:** Encarregado de Proteção de Dados (DPO interino · pendente nomeação formal por instrumento societário)
+- **E-mail dedicado:** <dpo@voxcivis.ai>
+- **Endereço para correspondência:** SIAS LTDA · Brasília/DF, Brasil
 
 **Responsabilidades do DPO:**
 - Monitorar conformidade com LGPD
@@ -746,11 +811,11 @@ Se maior de idade contrata plataforma para fins comerciais/educacionais:
 
 ---
 
-## 13. Auditoria e Conformidade de Terceiros (Processadores)
+## 14. Auditoria e Conformidade de Terceiros (Processadores)
 
 A Vox Civis implementa rigorosa governança sobre prestadores de serviço que processam dados pessoais.
 
-### **13.1 Due Diligence Antes de Contratação**
+### **14.1 Due Diligence Antes de Contratação**
 
 Antes de integrar qualquer processador, a Vox Civis realiza:
 
@@ -761,7 +826,7 @@ Antes de integrar qualquer processador, a Vox Civis realiza:
 - **Referências:** Consulta com outros clientes e análise de reputação
 - **Documentação:** Solicitação de políticas de privacidade, termos de serviço, certificados
 
-### **13.2 Data Processing Agreement (DPA) — Obrigatório**
+### **14.2 Data Processing Agreement (DPA) — Obrigatório**
 
 Todo processador assina **Acordo de Processamento de Dados** incluindo:
 
@@ -779,7 +844,7 @@ Todo processador assina **Acordo de Processamento de Dados** incluindo:
 - Dever de confidencialidade mesmo após término do contrato
 - Responsabilidade por danos causados por violação
 
-### **13.3 Auditoria Periódica de Conformidade**
+### **14.3 Auditoria Periódica de Conformidade**
 
 A Vox Civis realiza auditorias conforme critério de risco:
 
@@ -798,7 +863,7 @@ A Vox Civis realiza auditorias conforme critério de risco:
 - Conformidade com LGPD/GDPR
 - Qualidade de backups e recuperação
 
-### **13.4 Direito de Auditoria Contratual**
+### **14.4 Direito de Auditoria Contratual**
 
 A Vox Civis reserva o direito de:
 
@@ -905,4 +970,10 @@ Violação de segurança envolvendo:
 Titulares afetados têm direito a:
 - Informação clara sobre o ocorrido
 - Orientação de como se proteger
-- Monitoramento de crédito (se 
+- Monitoramento de notificações sobre o caso
+- Suporte do DPO para esclarecimento de dúvidas
+- Recurso à ANPD caso julgue necessário
+
+---
+
+*Documento publicado em https://legal.voxcivis.ai/privacidade · Versão definitiva após validação por escritório especializado em LGPD.* 

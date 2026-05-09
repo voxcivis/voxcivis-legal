@@ -20,6 +20,7 @@ permalink: /termos
 | Versão | Data | Alterações |
 |--------|------|-----------|
 | 1.3 | 08/05/2026 | Reconciliação com preços e limites oficiais do site voxcivis.ai/planos (fonte de verdade): (1) Profissional R$ 247/mês (não R$ 297) com 500 consultas/mês (não ilimitado); (2) Completo R$ 397/mês (não R$ 597); (3) Trial gratuito de 14 dias (não 7); (4) Cupom Fundador com desconto aproximado de 20% — Starter R$ 77 · Profissional R$ 197 · Completo R$ 317 |
+| 1.3 | 09/05/2026 | Seção 11 obrigações da Vox Civis: substituída afirmação "manter compliance com ISO 27001" por "adotar boas práticas de segurança alinhadas a frameworks reconhecidos" (ISO 27001 declarada como referência, não como conformidade obtida) |
 | 1.2 | 08/05/2026 | (1) Substituição de "Stripe" por "Asaas" como gateway de pagamento (correção de fato); (2) Inclusão da Seção 4.7 sobre evolução da plataforma com novos agentes especializados e produtos premium |
 | 1.1 | 17/04/2026 | Correção dos planos comerciais (agentes, consultas, usuários) conforme site oficial |
 | 1.0 | 17/04/2026 | Versão inicial — Beta fechado por convite |
@@ -355,7 +356,7 @@ A Vox Civis se compromete a:
 - **Não divulgar dados de clientes** a concorrentes ou terceiros
 - **Não utilizar dados de clientes** para fins comerciais próprios
 - **Proteger código-fonte e arquitetura técnica** sob sigilo absoluto
-- Manter **compliance com ISO 27001** (segurança da informação)
+- Adotar **boas práticas de segurança da informação** alinhadas a frameworks reconhecidos (LGPD, OWASP Top 10, ISO 27001 como referência)
 
 ---
 

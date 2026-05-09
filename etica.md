@@ -24,7 +24,8 @@ permalink: /etica
 | Versão | Data | Descrição |
 |--------|------|-----------|
 | 1.1 | 17/04/2026 | Melhorias cirúrgicas: referências a marcos internacionais de IA (EU AI Act, UNESCO, OECD, Marco Legal brasileiro); expansão de supervisão humana com direito de contestação e feedback loop; adição de seção sobre responsabilidade algorítmica com auditorias de viés e métricas de fairness territorial; contextualização dos 5 agentes com papéis éticos distintos e VOX GUARDIÃO como guardião ético; nova seção sobre democratização de inteligência territorial para pequenos municípios |
-| 1.0 | 17/04/2026 | Versão inicial aprovada pelo Conselho de Governança |
+| 1.1 | 09/05/2026 | (1) [AJUSTAR] removidos: suporte multilíngue (declarado PT-BR no MVP) · energia renovável (declarado Hostinger BR · estudo no roadmap); (2) URLs fantasma substituídas (ouvidoria.voxcivis.com.br · www.voxcivis.com.br/etica) por dpo@voxcivis.ai e legal.voxcivis.ai; (3) Telefone e Ombudsman externo: marcados como roadmap; (4) Tabela de assinatura: 3 cargos inexistentes substituídos por signatário único (Francisco de Assis Ferreira Braga Filho); (5) Comitê de Ética em IA: marcado explicitamente como roadmap |
+| 1.0 | 17/04/2026 | Versão inicial aprovada pelo Sócio-Administrador |
 
 ---
 
@@ -170,7 +171,7 @@ A responsabilidade final sobre qualquer decisão pública repousa sempre em huma
 
 - **Escalação de dilemas éticos:** Quando há incerteza ética significativa, a decisão é escalada para supervisão humana especializada.
 
-- **Comitê de Ética em IA (futuro):** Vox Civis estabelecerá Comitê de Ética em IA para revisar decisões sensíveis, ajustes de modelos e polêmicas éticas complexas.
+> 📌 **Roadmap:** A VoxCivis estabelecerá Comitê de Ética em IA para revisar decisões sensíveis, ajustes de modelos e polêmicas éticas complexas.
 
 ### 4.5 Responsabilidade Algorítmica e Auditoria de Viés
 
@@ -456,7 +457,7 @@ A inteligência territorial é para todos. A Vox Civis remove barreiras.
 
 - Serviço disponível para municípios de qualquer tamanho ou localização
 - Sem discriminação entre regiões geográficas
-- Suporte multilíngue [AJUSTAR conforme capacidade]
+- Suporte em português brasileiro (PT-BR) no MVP · roadmap: inglês e espanhol
 - Funciona em conexões lentamente (para áreas com internet limitada)
 
 ### 11.3 Inclusão Socioeconômica
@@ -522,7 +523,7 @@ A Vox Civis foi criada para impacto social positivo. Esse compromisso é central
 ### 13.2 Sustentabilidade Ambiental
 
 - Operações com pegada de carbono minimizada
-- Data centers com energia renovável [AJUSTAR]
+- Hospedagem em data centers da Hostinger (Brasil) · estudo de pegada de carbono no roadmap
 - Sem desperdício de recursos
 - Suporte a políticas ambientais dos clientes
 
@@ -602,10 +603,10 @@ Qualquer pessoa pode denunciar:
 ### 15.2 Canais de Denúncia
 
 - **Email confidencial:** etica@voxcivis.com.br
-- **Portal anônimo:** https://ouvidoria.voxcivis.com.br
-- **Telefone:** [AJUSTAR NÚMERO]
+- **Canal:** <dpo@voxcivis.ai> (com confidencialidade garantida pelo DPO)
+- **E-mail (canal único no MVP):** <dpo@voxcivis.ai>
 - **Presencialmente:** Escritório da SIAS, Brasília/DF
-- **Ombudsman externo:** [AJUSTAR CONTATO]
+> 📌 **Roadmap:** ombudsman externo independente será contratado conforme crescimento do time
 
 ### 15.3 Proteção de Denunciantes
 
@@ -722,7 +723,7 @@ Este Código entra em vigor em 17 de abril de 2026 e é vinculante para toda a o
 ### 17.3 Atualização
 
 Versões atualizadas são publicadas conforme necessário. A versão atual está sempre disponível em:
-- https://www.voxcivis.com.br/etica
+- https://legal.voxcivis.ai/etica
 - Intranete corporativa
 - Portal de clientes
 
@@ -730,15 +731,13 @@ Versões atualizadas são publicadas conforme necessário. A versão atual está
 
 ## 18. Aprovação e Assinatura
 
-Aprovado pelo Conselho de Governança da SIAS - Soluções em IA
+Aprovado pelo Sócio-Administrador da SIAS LTDA · revisão pelo escritório jurídico contratado
 
 **Data:** 17 de abril de 2026
 
 | Cargo | Nome | Assinatura | Data |
 |-------|------|-----------|------|
-| Presidente | [AJUSTAR] | _________________ | ___/___/_____ |
-| Diretor de Compliance | [AJUSTAR] | _________________ | ___/___/_____ |
-| Ombudsman | [AJUSTAR] | _________________ | ___/___/_____ |
+| Sócio-Administrador / DPO interino | Francisco de Assis Ferreira Braga Filho | _________________ | ___/___/_____ |
 
 ---
 

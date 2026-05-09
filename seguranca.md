@@ -4,83 +4,121 @@ title: Segurança da Informação
 permalink: /seguranca
 ---
 
-> **⚠️ Documento em fase final de revisão · resumo público.** A Política de Segurança completa é documento interno da SIAS LTDA. Esta página é um resumo das medidas implementadas, com foco em transparência ao usuário.
+> **⚠️ Documento institucional · Beta fechado.** Esta página apresenta os pilares de segurança da arquitetura VoxCivis em produção. A Política de Segurança completa é documento interno da SIAS LTDA. Versão definitiva publicada após validação por escritório especializado em LGPD/Direito Digital.
 
 ---
 
 # Segurança da Informação — VoxCivis
 
-**Última atualização:** 08/05/2026
+**Última atualização:** 09/05/2026  
+**Versão:** 2.0 · alinhada com arquitetura V3.9 em produção
 
-## 1. Compromissos da SIAS LTDA
+## 1. Compromisso institucional
 
-A SIAS adota controles de segurança alinhados às melhores práticas de mercado e à conformidade com a LGPD (Lei 13.709/2018).
+A **SIAS - Soluções em Inteligência Artificial e Sustentabilidade LTDA** opera a plataforma VoxCivis com **segurança e proteção de dados como pilares fundamentais** desde a concepção (*Security by Design*). Adotamos os mais altos padrões de mercado **aplicáveis ao estágio atual** da operação, com plano formal de evolução à medida que crescemos.
 
-## 2. Autenticação e controle de acesso
+Esta página declara, com transparência integral, **o que está implementado** em produção e **o que está planejado** para evolução. Sem ambiguidade.
 
-- **OAuth2 / OIDC** via Keycloak (padrão usado por instituições financeiras)
-- **Senhas armazenadas com hash** criptográfico (nunca em texto)
-- **JWT de sessão de curta duração** (15 minutos · refresh automático)
-- **MFA (autenticação multifator)** disponível para planos Completo e Sob Medida
-- **Login social** via Google · Microsoft (OAuth2 padrão)
+## 2. Pilares em produção (arquitetura V3.9)
 
-## 3. Criptografia
+### 2.1 Identidade e autenticação
+Padrão de mercado **OAuth2 / OpenID Connect** — mesmo adotado por instituições financeiras.
 
-- **Em trânsito:** TLS 1.3 (HTTPS automático via Let's Encrypt)
-- **Em repouso:** dados criptografados no banco PostgreSQL
-- **Backups criptografados** com chave separada
+- **Keycloak** auto-hospedado · realm dedicado `voxcivis` · JWT issuer
+- Validação de tokens via cache JWKS em Redis
+- Hash criptográfico de senhas (Keycloak)
+- Princípio do menor privilégio em acessos administrativos
 
-## 4. Auditoria e monitoramento
+### 2.2 Criptografia em trânsito
+- **TLS** automático via Traefik com Let's Encrypt
+- Domínios: `api.voxcivis.ai` · `auth.voxcivis.ai` · `legal.voxcivis.ai`
+- Comunicação com LLMs externos via HTTPS sob DPA de não-treinamento
 
-- **Audit log** de todas operações sensíveis · retenção mínima de **5 anos** (defesa em fiscalização ANPD)
-- **Rate-limit** em 3 camadas (segundo · minuto · dia) + por IP
-- **Detecção de anomalias** automatizada
-- **Alertas em tempo real** para a equipe técnica
+### 2.3 Auditoria completa
+- **Audit log** em PostgreSQL com retenção LGPD de **5 anos**
+- Captura via `AuditMiddleware` em modo *fire-and-forget* (zero impacto em latência)
+- Estrutura padronizada · rastreabilidade ponta-a-ponta de cada interação com IA
 
-## 5. Gate de compliance (VOX GUARDIÃO)
+### 2.4 Controle de tráfego (rate-limit)
+- 3 camadas temporais: segundo · minuto · dia
+- Aplicação dual: por usuário (JWT) + por IP
+- Contadores em Redis · resposta `429 Too Many Requests`
 
-Toda saída dos agentes de IA passa pelo VOX GUARDIÃO — gate automatizado que:
+### 2.5 Compliance automatizado: VOX GUARDIÃO
+**Diferencial arquitetural** — toda saída de IA passa por gate automatizado:
 
-- Detecta conteúdo potencialmente eleitoral (Lei 9.504/97)
-- Detecta dados pessoais em outputs (LGPD)
-- Aplica watermark de autoria em todas as respostas
-- Sistema de 4 cores: VERDE (libera) · AMARELO (ajusta) · LARANJA (revisa) · VERMELHO (bloqueia)
+- Workflow dedicado em n8n (WF-02) · 100% das respostas
+- **Watermark automático** em toda resposta aprovada
+- **Bloqueio ativo** de conteúdo potencialmente eleitoral (Lei 9.504/97)
+- Decisões registradas no audit log
 
-## 6. Infraestrutura
+### 2.6 Infraestrutura
+- **Hospedagem em território nacional:** Hostinger Brasil · servidor dedicado
+- Orquestração via Easypanel · rede Docker isolada (`easypanel-vox_civis`)
+- Containers: Traefik · Keycloak · FastAPI · PostgreSQL · Redis · n8n · OpenWebUI
+- **Soberania de dados:** dados de clientes residem em território brasileiro
 
-- **Hospedagem:** Hostinger (Brasil) com containers Docker isolados
-- **Banco de dados:** PostgreSQL com Row-Level Security (RLS)
-- **Cache:** Redis (rate-limit + JWKS)
-- **Storage:** MinIO (S3-compatible) self-hosted
-- **TLS automático:** Traefik com Let's Encrypt
+### 2.7 Pipeline da requisição (defense in depth)
+Princípio **fail-fast** — toda validação ocorre antes da chamada ao LLM:
 
-## 7. Resposta a incidentes
+```
+Cliente → Traefik (TLS) → CORS → Auth (JWKS) → Rate-limit (Redis) →
+Audit (Postgres) → Roteamento → Agente (n8n WF-01) → LLM →
+GUARDIÃO (n8n WF-02) → Watermark → Cliente
+```
 
-Em caso de incidente de segurança:
+## 3. Frameworks e referências adotados
 
-1. Equipe técnica é alertada automaticamente
-2. DPO avalia e classifica severidade
-3. Notificação à ANPD em até **72 horas** (se aplicável · LGPD art. 48)
-4. Comunicação aos titulares afetados (se aplicável)
-5. Análise de causa raiz e remediação documentada
-6. Histórico mantido em audit log por 5 anos
+A arquitetura VoxCivis tem como referência os principais frameworks consolidados de mercado, aplicados na medida adequada ao estágio atual:
 
-## 8. Vulnerabilidades
+- **LGPD** (Lei 13.709/2018) — conformidade implementada
+- **Marco Civil da Internet** (Lei 12.965/2014) — conformidade implementada
+- **OWASP Top 10** — referência aplicada no design da aplicação
+- **ISO 27001 / ISO 27701** — norte arquitetural · certificação no plano de evolução
+- **NIST Cybersecurity Framework** — referência para postura defensiva
 
-Ao identificar uma vulnerabilidade, **reporte responsavelmente** para <dpo@voxcivis.ai>. Não exploraremos, não retaliaremos e agradecemos a colaboração.
+## 4. Plano de Evolução Contínua
 
-## 9. Conformidade
+Os controles abaixo **não estão implementados no MVP** e seguem cronograma formal de implementação proporcional ao crescimento da operação:
 
-- **LGPD** (Lei 13.709/2018)
-- **Marco Civil da Internet** (Lei 12.965/2014)
-- **ISO 27001/27701** (boas práticas, em processo de avaliação)
-- **OWASP Top 10** (aplicação web)
+**Horizonte 1 (até Q3/2026)**
+- MFA por plano · Login social Google/Microsoft
+- Criptografia em repouso · Backups com chave separada
+- Row-Level Security (RLS) no PostgreSQL · MinIO para objetos
+- Alertas em tempo real
 
-## 10. Contato
+**Horizonte 2 (12-18 meses)**
+- HSM/KMS · WAF dedicado · SIEM · Detecção de anomalias · Pen test anual
+
+**Horizonte 3 (12-24 meses)**
+- ISMS formal · Comitê de Segurança · Certificações ISO 27001/27701 e SOC 2
+
+## 5. Resposta a incidentes
+
+Procedimento alinhado ao art. 48 da LGPD:
+
+1. Detecção e contenção via monitoramento da arquitetura
+2. Avaliação de severidade pelo DPO
+3. **Notificação à ANPD em até 72 horas** quando houver risco aos titulares
+4. Comunicação aos titulares afetados em linguagem clara
+5. Causa raiz documentada no audit log (5 anos)
+
+**Canal:** <dpo@voxcivis.ai>
+
+## 6. Reporte responsável de vulnerabilidades
+
+Pesquisadores de segurança são bem-vindos. Reporte sob *disclosure responsável* para <dpo@voxcivis.ai>:
+
+- Não exploramos, não retaliamos
+- Reconhecemos publicamente colaborações relevantes (com autorização)
+- Remediação proporcional à severidade
+
+## 7. Contato
 
 - **DPO:** <dpo@voxcivis.ai>
-- **Suporte:** <contato@voxcivis.ai>
+- **Atendimento geral:** <atendimento@voxcivis.ai>
+- **Sede:** SIAS LTDA · Brasília/DF · CNPJ 59.999.302/0001-68
 
 ---
 
-*Documento de referência pública. Política de Segurança completa é interna.*
+*Documento de referência pública alinhado com a arquitetura V3.9 em produção. Política de Segurança completa é interna.*
