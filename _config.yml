@@ -1,0 +1,27 @@
+title: VoxCivis · Documentos Legais
+description: Termos de Uso, Política de Privacidade e demais documentos institucionais da SIAS LTDA
+author: SIAS - Soluções em Inteligência Artificial e Sustentabilidade LTDA
+email: dpo@voxcivis.ai
+url: "https://legal.voxcivis.ai"
+
+theme: jekyll-theme-minimal
+
+show_downloads: false
+github:
+  is_project_page: false
+
+# Footer customizado
+footer_text: "© 2026 SIAS LTDA · CNPJ 59.999.302/0001-68 · Brasília/DF · dpo@voxcivis.ai"
+
+# Markdown
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# Excluir arquivos desnecessários
+exclude:
+  - README.md
+  - LEIA-ME.md
+  - vendor/
+  - .gitignore
