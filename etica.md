@@ -8,24 +8,15 @@ permalink: /etica
 
 ---
 
-
 # Código de Ética e Conduta
 ## SIAS - Soluções em IA
 
-**Versão:** 1.0  
+**Versão:** 1.2  
 **Data de aprovação:** 17 de abril de 2026  
 **Válido a partir de:** 17 de abril de 2026  
 **Classificação:** Público
 
 ---
-
-## Changelog
-
-| Versão | Data | Descrição |
-|--------|------|-----------|
-| 1.1 | 17/04/2026 | Melhorias cirúrgicas: referências a marcos internacionais de IA (EU AI Act, UNESCO, OECD, Marco Legal brasileiro); expansão de supervisão humana com direito de contestação e feedback loop; adição de seção sobre responsabilidade algorítmica com auditorias de viés e métricas de fairness territorial; contextualização dos 5 agentes com papéis éticos distintos e VOX GUARDIÃO como guardião ético; nova seção sobre democratização de inteligência territorial para pequenos municípios |
-| 1.1 | 09/05/2026 | (1) [AJUSTAR] removidos: suporte multilíngue (declarado PT-BR no MVP) · energia renovável (declarado Hostinger BR · estudo no roadmap); (2) URLs fantasma substituídas (ouvidoria.voxcivis.com.br · www.voxcivis.com.br/etica) por dpo@voxcivis.ai e legal.voxcivis.ai; (3) Telefone e Ombudsman externo: marcados como roadmap; (4) Tabela de assinatura: 3 cargos inexistentes substituídos por signatário único (Francisco de Assis Ferreira Braga Filho); (5) Comitê de Ética em IA: marcado explicitamente como roadmap |
-| 1.0 | 17/04/2026 | Versão inicial aprovada pelo Sócio-Administrador |
 
 ---
 
@@ -171,7 +162,7 @@ A responsabilidade final sobre qualquer decisão pública repousa sempre em huma
 
 - **Escalação de dilemas éticos:** Quando há incerteza ética significativa, a decisão é escalada para supervisão humana especializada.
 
-> 📌 **Roadmap:** A VoxCivis estabelecerá Comitê de Ética em IA para revisar decisões sensíveis, ajustes de modelos e polêmicas éticas complexas.
+A VoxCivis manterá fórum institucional para revisar decisões sensíveis de IA e tratar polêmicas éticas relevantes para revisar decisões sensíveis, ajustes de modelos e polêmicas éticas complexas.
 
 ### 4.5 Responsabilidade Algorítmica e Auditoria de Viés
 
@@ -606,7 +597,7 @@ Qualquer pessoa pode denunciar:
 - **Canal:** <dpo@voxcivis.ai> (com confidencialidade garantida pelo DPO)
 - **E-mail (canal único no MVP):** <dpo@voxcivis.ai>
 - **Presencialmente:** Escritório da SIAS, Brasília/DF
-> 📌 **Roadmap:** ombudsman externo independente será contratado conforme crescimento do time
+Para preservação da independência, podem ser acionados serviços externos especializados quando aplicável
 
 ### 15.3 Proteção de Denunciantes
 
