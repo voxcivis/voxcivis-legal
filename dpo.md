@@ -10,7 +10,7 @@ permalink: /dpo
 
 ## 1. Identificação do Encarregado
 
-- **Nome:** Francisco José Braga
+- **Nome:** Francisco de Assis Ferreira Braga Filho
 - **Função:** Encarregado de Proteção de Dados (DPO interino · pendente nomeação formal)
 - **E-mail dedicado:** <dpo@voxcivis.ai>
 - **Empresa:** SIAS - Soluções em Inteligência Artificial e Sustentabilidade LTDA
